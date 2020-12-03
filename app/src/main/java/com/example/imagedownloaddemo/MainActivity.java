@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -18,7 +19,19 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
 
     public void downloadImage(View view) {
+        Toast.makeText(this, "Test Toast", Toast.LENGTH_SHORT).show();
         Log.i("Button tapped", "Okay");
+        ImageDownloader task = new ImageDownloader();
+        Bitmap myImage;
+
+        try {
+            myImage = task.execute("https://upload.wikimedia.org/wikipedia/en/a/aa/Bart_Simpson_200px.png").get();
+
+            imageView.setImageBitmap(myImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -46,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
                 return myBitmap;
             } catch (Exception e) {
-
+                e.printStackTrace();
+                return null;
             }
         }
     }
